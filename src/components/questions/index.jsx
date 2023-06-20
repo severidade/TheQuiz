@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import client from '../../cliente';
 import './questions.css';
+import alertSoundWrong from '../../assets/wrong_answer.mp3';
+import alertSoundRight from '../../assets/right_answer.mp3';
 
 export default function Questions() {
   const [questions, setQuestions] = useState([]);
@@ -32,6 +34,16 @@ export default function Questions() {
     return newArray;
   };
 
+  const playalertSoundWrong = () => {
+    const audioErrado = new Audio(alertSoundWrong);
+    audioErrado.play();
+  };
+
+  const playalertSoundRight = () => {
+    const audioCerto = new Audio(alertSoundRight);
+    audioCerto.play();
+  };
+
   const handleOptionClick = (optionIndex) => {
     setSelectedOption(optionIndex);
     setShowResult(true);
@@ -40,6 +52,9 @@ export default function Questions() {
     const correctOptionIndex = currentQuestion.correctOption;
     if (optionIndex === correctOptionIndex) {
       setCorrectAnswers(correctAnswers + 1);
+      playalertSoundRight();
+    } else {
+      playalertSoundWrong();
     }
   };
 
