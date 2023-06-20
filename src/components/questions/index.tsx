@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import client from '../../cliente';
 import './questions.css';
 import alertSoundWrong from '../../assets/wrong_answer.mp3';
 import alertSoundRight from '../../assets/right_answer.mp3';
 
+interface Question {
+  title: string;
+  options: string[];
+  correctOption: number;
+}
+
 export default function Questions() {
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [correctAnswers, setCorrectAnswers] = useState(0);
 
@@ -25,7 +31,7 @@ export default function Questions() {
     fetchQuestions();
   }, []);
 
-  const shuffleArray = (array) => {
+  const shuffleArray = (array: Question[]) => {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -44,7 +50,7 @@ export default function Questions() {
     audioCerto.play();
   };
 
-  const handleOptionClick = (optionIndex) => {
+  const handleOptionClick = (optionIndex: number) => {
     setSelectedOption(optionIndex);
     setShowResult(true);
 
@@ -66,9 +72,9 @@ export default function Questions() {
     }
   };
 
-  const handleClass = (correctOptionIndex, optionIndex) => {
+  const handleClass = (currentQuestion: Question, optionIndex: number) => {
     if (showResult && selectedOption === optionIndex) {
-      if (selectedOption === correctOptionIndex) {
+      if (selectedOption === currentQuestion.correctOption) {
         return 'correct';
       }
       return 'errado';
@@ -92,12 +98,10 @@ export default function Questions() {
           <li key={ optionIndex }>
             <button
               onClick={ () => handleOptionClick(optionIndex) }
-              className={
-                handleClass(correctOptionIndex, optionIndex)
-              }
+              className={ handleClass(currentQuestion, optionIndex) }
               disabled={ showResult }
             >
-              { option }
+              {option}
             </button>
           </li>
         ))}
@@ -130,3 +134,9 @@ export default function Questions() {
     </div>
   );
 }
+
+// interface Question {
+//   title: string;
+//   options: string[];
+//   correctOption: number;
+// }
