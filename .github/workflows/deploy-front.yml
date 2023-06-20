@@ -6,7 +6,7 @@ jobs:
   deploy-front:
     runs-on: ubuntu-latest
     environment:
-      name: quiz
+      name: TheQuiz
     steps:
       - uses: actions/checkout@v2
       # Criação do build
