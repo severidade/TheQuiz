@@ -13,7 +13,8 @@ export default function Questions() {
     const fetchQuestions = async () => {
       try {
         const response = await client.fetch('*[_type == "question"]');
-        setQuestions(response);
+        const shuffledQuestions = shuffleArray(response);
+        setQuestions(shuffledQuestions);
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
@@ -21,6 +22,15 @@ export default function Questions() {
 
     fetchQuestions();
   }, []);
+
+  const shuffleArray = (array) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
 
   const handleOptionClick = (optionIndex) => {
     setSelectedOption(optionIndex);
