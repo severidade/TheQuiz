@@ -1,0 +1,7 @@
+button.correct {
+  background: green;
+}
+
+button.errado {
+  background-color: red;
+}
