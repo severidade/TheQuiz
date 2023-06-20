@@ -16,7 +16,7 @@ jobs:
           node-version: 16.18.1
       - run: npm install
       - run: npm run build
-      - run: cp .htaccess ./build
+      - run: cp .htaccess ./dist
 
       # Deploy do front
       - name: Upload from public_html via FTP
