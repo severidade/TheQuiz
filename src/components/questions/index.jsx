@@ -51,6 +51,16 @@ export default function Questions() {
     }
   };
 
+  const handleClass = (correctOptionIndex, optionIndex) => {
+    if (showResult && selectedOption === optionIndex) {
+      if (selectedOption === correctOptionIndex) {
+        return 'correct';
+      }
+      return 'errado';
+    }
+    return '';
+  };
+
   if (questions.length === 0) {
     return <div className="loading">Loading...</div>;
   }
@@ -65,24 +75,11 @@ export default function Questions() {
       <ul>
         {options.map((option, optionIndex) => (
           <li key={ optionIndex }>
-            {/* <button
-              onClick={ () => handleOptionClick(optionIndex) }
-              disabled={ showResult }
-              className={ `${
-                showResult
-                && selectedOption === optionIndex
-                && selectedOption === correctOptionIndex
-                  ? 'correct'
-                  : selectedOption === optionIndex
-                    ? 'errado'
-                    : ''
-              }` }
-            >
-              {option}
-            </button> */}
             <button
               onClick={ () => handleOptionClick(optionIndex) }
-              className={ `${showResult}` }
+              className={
+                handleClass(correctOptionIndex, optionIndex)
+              }
               disabled={ showResult }
             >
               { option }
