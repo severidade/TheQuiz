@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import client from '../../cliente';
 import './questions.css';
 import alertSoundWrong from '../../assets/wrong_answer.mp3';
@@ -16,6 +16,9 @@ export default function Questions() {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [timer, setTimer] = useState(30); // Tempo inicial do timer em segundos
+
+  const timerRef = useRef<number>();
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -30,6 +33,26 @@ export default function Questions() {
 
     fetchQuestions();
   }, []);
+
+  useEffect(() => {
+    const countdown = () => {
+      setTimer((prevTimer) => prevTimer - 1);
+    };
+
+    timerRef.current = window.setTimeout(() => {
+      countdown();
+    }, 1000);
+
+    if (timer === 0) {
+      clearTimeout(timerRef.current);
+      setShowResult(true);
+      playalertSoundWrong();
+    }
+
+    return () => {
+      clearTimeout(timerRef.current);
+    };
+  }, [timer]);
 
   const shuffleArray = (array: Question[]) => {
     const newArray = [...array];
@@ -51,6 +74,7 @@ export default function Questions() {
   };
 
   const handleOptionClick = (optionIndex: number) => {
+    clearTimeout(timerRef.current);
     setSelectedOption(optionIndex);
     setShowResult(true);
 
@@ -65,10 +89,12 @@ export default function Questions() {
   };
 
   const handleNextQuestion = () => {
+    clearTimeout(timerRef.current);
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedOption(null);
       setShowResult(false);
+      setTimer(30);
     }
   };
 
@@ -93,6 +119,12 @@ export default function Questions() {
   return (
     <div>
       <h3>{currentQuestion.title}</h3>
+      <div className="timer">
+        Tempo Restante:
+        {' '}
+        {timer}
+        s
+      </div>
       <ul>
         {options.map((option, optionIndex) => (
           <li key={ optionIndex }>
@@ -108,35 +140,32 @@ export default function Questions() {
       </ul>
       {showResult && (
         <p>
-          Sua resposta:
-          {' '}
-          {
-            selectedOption === correctOptionIndex
-              ? 'Correta'
-              : 'Incorreta'
-          }
+          {timer === 0 && 'Seu tempo acabou'}
+          {timer !== 0 && (
+            <>
+              Sua resposta está
+              {' '}
+              {selectedOption === correctOptionIndex ? 'Correta' : 'Incorreta'}
+            </>
+          )}
         </p>
       )}
       {showResult && (
         <button onClick={ handleNextQuestion }>
-          {
-            currentQuestionIndex === questions.length - 1
-              ? 'Finalizar'
-              : 'Próxima Pergunta'
-          }
+          {currentQuestionIndex === questions.length - 1
+            ? 'Finalizar'
+            : 'Próxima Pergunta'}
         </button>
       )}
       <div>
         Total de respostas corretas:
         {' '}
         {correctAnswers}
+        {' '}
+        /
+        {' '}
+        {questions.length}
       </div>
     </div>
   );
 }
-
-// interface Question {
-//   title: string;
-//   options: string[];
-//   correctOption: number;
-// }
