@@ -4,11 +4,13 @@ import Home from './pages/home';
 import Trivia from './pages/trivia';
 import Feedback from './pages/feedback';
 import NotFound from './pages/not-found';
+import Register from './pages/register';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={ <Home /> } />
+      <Route path="/register" element={ <Register /> } />
       <Route path="/trivia" element={ <Trivia /> } />
       <Route path="/feedback" element={ <Feedback /> } />
       <Route path="*" element={ <NotFound /> } />

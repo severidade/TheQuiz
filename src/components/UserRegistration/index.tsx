@@ -12,6 +12,17 @@ function UserRegistration() {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Verificar se o usuário já existe na base de dados
+    const query = '*[_type == \'user\' && (name == $name || email == $email)]';
+    const existingUsers = await client.fetch(query, { name, email });
+
+    if (existingUsers.length > 0) {
+      setMutationResult(null);
+      setMutationError('Usuário com mesmo nome ou email já existe.');
+      return;
+    }
+
+    // Se o usuário não existe, realizar o cadastro
     const newUser = {
       _type: 'user',
       name,
@@ -33,7 +44,6 @@ function UserRegistration() {
 
   return (
     <div>
-      <h2>Cadastro de Usuário</h2>
       <form onSubmit={ handleFormSubmit }>
         <label htmlFor="name">Nome:</label>
         <input
@@ -57,7 +67,6 @@ function UserRegistration() {
           id="age"
           value={ age }
           onChange={ (e) => setAge(parseInt(e.target.value, 10)) }
-
         />
 
         <button type="submit">Cadastrar</button>
