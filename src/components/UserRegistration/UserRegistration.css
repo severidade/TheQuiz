@@ -1,0 +1,8 @@
+.valid{
+  color: green;
+  text-decoration: line-through;
+}
+
+.invalid {
+  color: tomato;
+}
