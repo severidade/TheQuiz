@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import client from '../../cliente';
+import './UserRegistration.css';
 
 function UserRegistration() {
   const navigate = useNavigate();
@@ -74,6 +75,10 @@ function UserRegistration() {
     }
   };
 
+  const isNameValid = name.length >= 4;
+  const isAgeValid = age > 0;
+  const isEmailValid = email.match(/\S+@\S+\.\S+/);
+
   let content;
   if (loading) {
     content = <p>Cadastrando usuário...</p>;
@@ -83,47 +88,60 @@ function UserRegistration() {
     );
   } else {
     content = (
-      <form onSubmit={ handleFormSubmit }>
-        <label htmlFor="name">
-          <span>Nome:</span>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={ name }
-            onChange={ handleInputChange }
-            required
-          />
-        </label>
+      <>
+        <form onSubmit={ handleFormSubmit }>
+          <label htmlFor="name">
+            <span>Nome:</span>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={ name }
+              onChange={ handleInputChange }
+              required
+            />
+          </label>
 
-        <label htmlFor="email">
-          <span>E-mail:</span>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={ email }
-            onChange={ handleInputChange }
-            required
-          />
-        </label>
+          <label htmlFor="email">
+            <span>E-mail:</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={ email }
+              onChange={ handleInputChange }
+              required
+            />
+          </label>
 
-        <label htmlFor="age">
-          <span>Idade:</span>
-          <input
-            type="number"
-            id="age"
-            name="age"
-            value={ age }
-            onChange={ handleInputChange }
-            required
-          />
-        </label>
+          <label htmlFor="age">
+            <span>Idade:</span>
+            <input
+              type="number"
+              id="age"
+              name="age"
+              value={ age }
+              onChange={ handleInputChange }
+              required
+            />
+          </label>
+          <button type="submit" disabled={ validity }>
+            Cadastrar
+          </button>
+        </form>
+        <ul>
+          <li className={ isNameValid ? 'valid' : 'invalid' }>
+            O nome deve ter pelo menos 4 caracteres.
+          </li>
+          <li className={ isEmailValid ? 'valid' : 'invalid' }>
+            Digite um e-mail válido.
+          </li>
+          <li className={ isAgeValid ? 'valid' : 'invalid' }>
+            Preencha uma idade válida.
+          </li>
+        </ul>
 
-        <button type="submit" disabled={ validity }>
-          Cadastrar
-        </button>
-      </form>
+      </>
     );
   }
 
