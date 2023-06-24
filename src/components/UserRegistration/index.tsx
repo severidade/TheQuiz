@@ -5,9 +5,35 @@ function UserRegistration() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState(0);
+  const [validity, setValidity] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [mutationResult, setMutationResult] = useState<string | null>(null);
   const [mutationError, setMutationError] = useState<string | null>(null);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: inputName, value } = e.target;
+    if (inputName === 'name') {
+      setName(value);
+    } else if (inputName === 'email') {
+      setEmail(value);
+    } else if (inputName === 'age') {
+      setAge(parseInt(value, 10));
+    }
+    handleValidity();
+  };
+
+  const handleValidity = () => {
+    const emailValidation = email.match(/\S+@\S+\.\S+/);
+    const nameValidation = name.length;
+    const ageValidation = age > 0;
+    const magicNumber = 4;
+    if (emailValidation && nameValidation >= magicNumber && ageValidation) {
+      setValidity(false);
+    } else {
+      setValidity(true);
+    }
+  };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +57,7 @@ function UserRegistration() {
     };
 
     try {
+      setLoading(true); // Ativa o estado de carregamento
       await client.create(newUser);
       console.log('Usuário cadastrado com sucesso!');
       setMutationResult('Usuário cadastrado com sucesso!');
@@ -39,38 +66,58 @@ function UserRegistration() {
       console.error('Ocorreu um erro ao cadastrar o usuário:', error.message);
       setMutationResult(null);
       setMutationError('Erro ao cadastrar o usuário');
+    } finally {
+      setLoading(false); // Desativa o estado de carregamento
     }
   };
 
   return (
     <div>
-      <form onSubmit={ handleFormSubmit }>
-        <label htmlFor="name">Nome:</label>
-        <input
-          type="text"
-          id="name"
-          value={ name }
-          onChange={ (e) => setName(e.target.value) }
-        />
+      {loading ? (
+        <p>Cadastrando usuário...</p>
+      ) : (
+        <form onSubmit={ handleFormSubmit }>
+          <label htmlFor="name">
+            <span>Nome:</span>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={ name }
+              onChange={ handleInputChange }
+              required
+            />
+          </label>
 
-        <label htmlFor="email">E-mail:</label>
-        <input
-          type="email"
-          id="email"
-          value={ email }
-          onChange={ (e) => setEmail(e.target.value) }
-        />
+          <label htmlFor="email">
+            <span>E-mail:</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={ email }
+              onChange={ handleInputChange }
+              required
+            />
+          </label>
 
-        <label htmlFor="age">Idade:</label>
-        <input
-          type="number"
-          id="age"
-          value={ age }
-          onChange={ (e) => setAge(parseInt(e.target.value, 10)) }
-        />
+          <label htmlFor="age">
+            <span>Idade:</span>
+            <input
+              type="number"
+              id="age"
+              name="age"
+              value={ age }
+              onChange={ handleInputChange }
+              required
+            />
+          </label>
 
-        <button type="submit">Cadastrar</button>
-      </form>
+          <button type="submit" disabled={ validity }>
+            Cadastrar
+          </button>
+        </form>
+      )}
 
       {mutationResult && <p>{mutationResult}</p>}
       {mutationError && <p>{mutationError}</p>}
