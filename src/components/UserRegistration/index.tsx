@@ -29,7 +29,7 @@ function UserRegistration() {
   const handleValidity = () => {
     const emailValidation = email.match(/\S+@\S+\.\S+/);
     const nameValidation = name.length;
-    const ageValidation = age > 0;
+    const ageValidation = !Number.isNaN(Number(age)) && age >= 0 && age < 100; // Utilizando Number.isNaN
     const magicNumber = 4;
     if (emailValidation && nameValidation >= magicNumber && ageValidation) {
       setValidity(false);
