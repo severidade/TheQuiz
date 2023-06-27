@@ -7,7 +7,7 @@ function UserRegistration() {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState<number | null>(null);
   const [validity, setValidity] = useState(true);
   const [loading, setLoading] = useState(false);
   const [mutationResult, setMutationResult] = useState<string | null>(null);
@@ -26,10 +26,18 @@ function UserRegistration() {
     handleValidity();
   };
 
+  const handleBlur = () => {
+    handleValidity();
+  };
+
   const handleValidity = () => {
     const emailValidation = email.match(/\S+@\S+\.\S+/);
     const nameValidation = name.length;
-    const ageValidation = !Number.isNaN(Number(age)) && age >= 0 && age < 100; // Utilizando Number.isNaN
+    // const ageValidation = !Number.isNaN(Number(age)) && age >= 1 && age < 100; // Utilizando Number.isNaN
+    const ageValidation = age !== null
+      && !Number.isNaN(Number(age))
+      && age >= 1
+      && age < 100;
     const magicNumber = 4;
     if (emailValidation && nameValidation >= magicNumber && ageValidation) {
       setValidity(false);
@@ -76,7 +84,9 @@ function UserRegistration() {
   };
 
   const isNameValid = name.length >= 4;
-  const isAgeValid = age > 0;
+  // const isAgeValid = age !== null && age >= 1;
+  const isAgeValid = age !== null && age >= 1 && age < 100;
+
   const isEmailValid = email.match(/\S+@\S+\.\S+/);
 
   let content;
@@ -98,6 +108,22 @@ function UserRegistration() {
               name="name"
               value={ name }
               onChange={ handleInputChange }
+              onBlur={ handleBlur }
+              required
+            />
+          </label>
+
+          <label htmlFor="age">
+            <span>Idade:</span>
+            <input
+              type="number"
+              min="0"
+              id="age"
+              name="age"
+              value={ age !== null ? age : '' }
+              // onChange={ handleInputChange }
+              onBlur={ handleBlur }
+              onChange={ handleInputChange }
               required
             />
           </label>
@@ -109,22 +135,12 @@ function UserRegistration() {
               id="email"
               name="email"
               value={ email }
-              onChange={ handleInputChange }
+              onInput={ handleInputChange }
+              onBlur={ handleBlur }
               required
             />
           </label>
 
-          <label htmlFor="age">
-            <span>Idade:</span>
-            <input
-              type="number"
-              id="age"
-              name="age"
-              value={ age }
-              onChange={ handleInputChange }
-              required
-            />
-          </label>
           <button type="submit" disabled={ validity }>
             Cadastrar
           </button>
@@ -133,11 +149,11 @@ function UserRegistration() {
           <li className={ isNameValid ? 'valid' : 'invalid' }>
             O nome deve ter pelo menos 4 caracteres.
           </li>
-          <li className={ isEmailValid ? 'valid' : 'invalid' }>
-            Digite um e-mail válido.
-          </li>
           <li className={ isAgeValid ? 'valid' : 'invalid' }>
             Preencha uma idade válida.
+          </li>
+          <li className={ isEmailValid ? 'valid' : 'invalid' }>
+            Digite um e-mail válido.
           </li>
         </ul>
 
