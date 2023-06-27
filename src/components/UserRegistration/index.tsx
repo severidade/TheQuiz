@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import client from '../../cliente';
 import './UserRegistration.css';
 
@@ -11,7 +12,6 @@ function UserRegistration() {
   const [validity, setValidity] = useState(true);
   const [loading, setLoading] = useState(false);
   const [mutationResult, setMutationResult] = useState<string | null>(null);
-  const [mutationError, setMutationError] = useState<string | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
 
   useEffect(() => {
@@ -52,8 +52,12 @@ function UserRegistration() {
     const existingUsers = await client.fetch(query, { name, email });
 
     if (existingUsers.length > 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Usuário já existe',
+        text: 'Um usuário com o mesmo nome ou e-mail já está cadastrado.',
+      });
       setMutationResult(null);
-      setMutationError('Usuário com mesmo nome ou email já existe.');
       return;
     }
 
@@ -70,12 +74,10 @@ function UserRegistration() {
       await client.create(newUser);
       console.log('Usuário cadastrado com sucesso!');
       setMutationResult('Usuário cadastrado com sucesso!');
-      setMutationError(null);
       setIsUserRegistered(true); // Define que o usuário foi cadastrado com sucesso
     } catch (error: any) {
       console.error('Ocorreu um erro ao cadastrar o usuário:', error.message);
       setMutationResult(null);
-      setMutationError('Erro ao cadastrar o usuário');
     } finally {
       setLoading(false); // Desativa o estado de carregamento
     }
@@ -156,7 +158,6 @@ function UserRegistration() {
     <div>
       {mutationResult && <p>{mutationResult}</p>}
       {content}
-      {mutationError && <p>{mutationError}</p>}
     </div>
   );
 }
