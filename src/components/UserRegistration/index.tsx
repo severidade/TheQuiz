@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
+// import { setUserName } from '../../actions';
 import client from '../../cliente';
 import './UserRegistration.css';
 
@@ -13,6 +15,7 @@ function UserRegistration() {
   const [mutationResult, setMutationResult] = useState<string | null>(null);
   const [mutationError, setMutationError] = useState<string | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
+  // const dispatch = useDispatch();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
@@ -66,6 +69,7 @@ function UserRegistration() {
       setMutationResult('Usuário cadastrado com sucesso!');
       setMutationError(null);
       setIsUserRegistered(true); // Define que o usuário foi cadastrado com sucesso
+      // dispatch(setUserName(name));
     } catch (error: any) {
       console.error('Ocorreu um erro ao cadastrar o usuário:', error.message);
       setMutationResult(null);
