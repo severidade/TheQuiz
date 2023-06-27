@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import client from '../../cliente';
 import './questions.css';
 import alertSoundWrong from '../../assets/wrong_answer.mp3';
@@ -18,6 +20,9 @@ export default function Questions() {
   const [showResult, setShowResult] = useState(false);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [timer, setTimer] = useState(30); // Tempo inicial do timer em segundos
+
+  // const userName = useSelector((state) => state.userName) as string;
+  const userName = useSelector((state: { userName: string }) => state.userName);
 
   const timerRef = useRef<number>();
   const navigate = useNavigate();
@@ -122,6 +127,12 @@ export default function Questions() {
 
   return (
     <div>
+      <h1>
+        Olá
+        {' '}
+        {userName}
+        !
+      </h1>
       <h3>{currentQuestion.title}</h3>
       <div className="timer">
         Tempo Restante:

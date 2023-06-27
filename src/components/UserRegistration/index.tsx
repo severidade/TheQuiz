@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+
+import { useDispatch } from 'react-redux';
+import { setUserName } from '../../actions';
+
 import client from '../../cliente';
 import './UserRegistration.css';
 
@@ -13,6 +17,7 @@ function UserRegistration() {
   const [loading, setLoading] = useState(false);
   const [mutationResult, setMutationResult] = useState<string | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleValidity = () => {
@@ -73,7 +78,9 @@ function UserRegistration() {
       setLoading(true); // Ativa o estado de carregamento
       await client.create(newUser);
       console.log('Usuário cadastrado com sucesso!');
-      setMutationResult('Usuário cadastrado com sucesso!');
+      setMutationResult(`Olá ${name}. Seu cadastrado foi realizado com sucesso!`);
+
+      dispatch(setUserName(name));
       setIsUserRegistered(true); // Define que o usuário foi cadastrado com sucesso
     } catch (error: any) {
       console.error('Ocorreu um erro ao cadastrar o usuário:', error.message);
