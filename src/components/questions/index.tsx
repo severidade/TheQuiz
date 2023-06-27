@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import client from '../../cliente';
 import './questions.css';
 import alertSoundWrong from '../../assets/wrong_answer.mp3';
@@ -19,6 +20,7 @@ export default function Questions() {
   const [timer, setTimer] = useState(30); // Tempo inicial do timer em segundos
 
   const timerRef = useRef<number>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -95,6 +97,8 @@ export default function Questions() {
       setSelectedOption(null);
       setShowResult(false);
       setTimer(30);
+    } else {
+      navigate('/feedback');
     }
   };
 
