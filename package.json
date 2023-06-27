@@ -19,7 +19,8 @@
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.13.0",
     "redux": "^4.2.1",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "sweetalert2": "^11.7.12"
   },
   "devDependencies": {
     "@trybe/eslint-config-frontend": "^1.11.3",
