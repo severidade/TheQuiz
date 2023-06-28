@@ -59,6 +59,22 @@ export default function Feedback() {
     }
   };
 
+  // Calcula o percentual de acertos
+  const percentage = (correctAnswers / numberOfQuestions) * 100;
+
+  // Determina a mensagem com base no percentual de acertos
+  let message = '';
+  if (percentage <= 40) {
+    // eslint-disable-next-line max-len
+    message = 'Continue explorando as peculiaridades da cidade, afinal, quem precisa de 100% de acertos quando se tem 100% de diversão, não é mesmo?';
+  } else if (percentage <= 70) {
+    // eslint-disable-next-line max-len
+    message = 'Uau! Você realmente mostrou que sabe algumas curiosidades incomuns sobre Belo Horizonte! Está no caminho certo para se tornar um especialista em assuntos fora da caixinha. Continue mergulhando nesse universo de informações curiosas e quem sabe você não vira um(a) guia turístico(a) alternativo(a)?';
+  } else {
+    // eslint-disable-next-line max-len
+    message = 'Parabéns, oh sábio(a) conhecedor(a) de Belo Horizonte! Você se destacou no nosso quiz de curiosidades não convencionais. Parece que você tem um olhar afiado para as peculiaridades da cidade. Continue explorando e impressionando a todos com seu conhecimento único!';
+  }
+
   return (
     <div className="feedback-page">
       <div className="title">
@@ -76,7 +92,12 @@ export default function Feedback() {
           de
           {' '}
           {numberOfQuestions}
+          {' '}
+          (
+          {percentage}
+          %)
         </p>
+        <p>{message}</p>
         {/* <button onClick={ handleSaveResults }>Salvar Resultados</button> */}
       </div>
     </div>
