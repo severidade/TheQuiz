@@ -1,5 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setCorrectAnswers, setNumberOfQuestions } from '../../actions';
+
 import client from '../../cliente';
 import './questions.css';
 import alertSoundWrong from '../../assets/wrong_answer.mp3';
@@ -16,8 +20,13 @@ export default function Questions() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
   const [timer, setTimer] = useState(30); // Tempo inicial do timer em segundos
+
+  const dispatch = useDispatch();
+  const correctAnswers = useSelector(
+    (state: { correctAnswers: number }) => state.correctAnswers,
+  );
+  const userName = useSelector((state: { userName: string }) => state.userName);
 
   const timerRef = useRef<number>();
   const navigate = useNavigate();
@@ -28,6 +37,7 @@ export default function Questions() {
         const response = await client.fetch('*[_type == "question"]');
         const shuffledQuestions = shuffleArray(response);
         setQuestions(shuffledQuestions);
+        dispatch(setNumberOfQuestions(shuffledQuestions.length));
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
@@ -83,7 +93,7 @@ export default function Questions() {
     const currentQuestion = questions[currentQuestionIndex];
     const correctOptionIndex = currentQuestion.correctOption;
     if (optionIndex === correctOptionIndex) {
-      setCorrectAnswers(correctAnswers + 1);
+      dispatch(setCorrectAnswers(correctAnswers + 1));
       playalertSoundRight();
     } else {
       playalertSoundWrong();
@@ -122,6 +132,12 @@ export default function Questions() {
 
   return (
     <div>
+      <h1>
+        Olá
+        {' '}
+        {userName}
+        !
+      </h1>
       <h3>{currentQuestion.title}</h3>
       <div className="timer">
         Tempo Restante:

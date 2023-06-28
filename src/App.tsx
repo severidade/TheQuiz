@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import { Provider } from 'react-redux';
+import store from './store';
 import Home from './pages/home';
 import Trivia from './pages/trivia';
 import Feedback from './pages/feedback';
@@ -8,13 +10,15 @@ import Register from './pages/register';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={ <Home /> } />
-      <Route path="/register" element={ <Register /> } />
-      <Route path="/trivia" element={ <Trivia /> } />
-      <Route path="/feedback" element={ <Feedback /> } />
-      <Route path="*" element={ <NotFound /> } />
-    </Routes>
+    <Provider store={ store }>
+      <Routes>
+        <Route path="/" element={ <Home /> } />
+        <Route path="/register" element={ <Register /> } />
+        <Route path="/trivia" element={ <Trivia /> } />
+        <Route path="/feedback" element={ <Feedback /> } />
+        <Route path="*" element={ <NotFound /> } />
+      </Routes>
+    </Provider>
   );
 }
 
