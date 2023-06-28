@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './redux/store';
 import Home from './pages/home';
 import Trivia from './pages/trivia';
 import Feedback from './pages/feedback';

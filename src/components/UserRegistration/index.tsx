@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import { useDispatch } from 'react-redux';
-import { setUserName } from '../../actions';
+import { setUserName } from '../../redux/actions';
 
 import client from '../../cliente';
 import './UserRegistration.css';

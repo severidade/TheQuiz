@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setCorrectAnswers, setNumberOfQuestions } from '../../actions';
+import { setCorrectAnswers, setNumberOfQuestions } from '../../redux/actions';
 
 import client from '../../cliente';
 import './questions.css';
