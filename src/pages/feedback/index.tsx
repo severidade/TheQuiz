@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import cliente from '../../cliente';
 
 export default function Feedback() {
-  const dispatch = useDispatch();
   const userName = useSelector((state: { userName: string }) => state.userName);
   const correctAnswers = useSelector(
     (state: { correctAnswers: number }) => state.correctAnswers,
@@ -15,18 +14,22 @@ export default function Feedback() {
   useEffect(() => {
     const handleSaveResults = async () => {
       try {
-        // Define os dados que serão salvos
-        const result = {
-          _type: 'ranking',
-          userName,
-          correctAnswers,
-          numberOfQuestions,
-        };
+        if (userName && correctAnswers !== null && numberOfQuestions !== null) {
+          // Define os dados que serão salvos
+          const result = {
+            _type: 'ranking',
+            userName,
+            correctAnswers,
+            numberOfQuestions,
+          };
 
-        // Envie os dados para o Sanity
-        await cliente.create(result);
+          // Envie os dados para o Sanity
+          await cliente.create(result);
 
-        console.log('Resultados salvos com sucesso!');
+          console.log('Resultados salvos com sucesso!');
+        } else {
+          console.log('Resultados inválidos, não foram salvos no Sanity.');
+        }
       } catch (error) {
         console.error('Erro ao salvar os resultados:', error);
       }
