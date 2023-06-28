@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import cliente from '../../cliente';
 
 export default function Feedback() {
   const dispatch = useDispatch();
@@ -10,6 +11,25 @@ export default function Feedback() {
     (state: { numberOfQuestions: number }) => state.numberOfQuestions,
   );
 
+  const handleSaveResults = async () => {
+    try {
+      // Define os dados que serão salvos
+      const result = {
+        _type: 'ranking',
+        userName,
+        correctAnswers,
+        numberOfQuestions,
+      };
+
+      // Envie os dados para o Sanity
+      await cliente.create(result);
+
+      console.log('Resultados salvos com sucesso!');
+    } catch (error) {
+      console.error('Erro ao salvar os resultados:', error);
+    }
+  };
+
   return (
     <div className="feedback-page">
       <div className="title">
@@ -20,16 +40,16 @@ export default function Feedback() {
           !
         </h1>
         <p>
-          {' '}
           Você acertou
           {' '}
-          { correctAnswers }
+          {correctAnswers}
           {' '}
           de
           {' '}
           {numberOfQuestions}
         </p>
       </div>
+      <button onClick={ handleSaveResults }>Salvar Resultados</button>
     </div>
   );
 }
