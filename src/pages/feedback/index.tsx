@@ -1,10 +1,10 @@
 // import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import cliente from '../../cliente';
+// import cliente from '../../cliente';
 
 export default function Feedback() {
   const userName = useSelector((state: { userName: string }) => state.userName);
-  const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
+  // const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
   const correctAnswers = useSelector(
     (state: { correctAnswers: number }) => state.correctAnswers,
   );
