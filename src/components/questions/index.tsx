@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setCorrectAnswers } from '../../actions';
 
 import client from '../../cliente';
 import './questions.css';
@@ -18,10 +20,13 @@ export default function Questions() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
   const [timer, setTimer] = useState(30); // Tempo inicial do timer em segundos
 
   // const userName = useSelector((state) => state.userName) as string;
+  const dispatch = useDispatch();
+  const correctAnswers = useSelector(
+    (state: { correctAnswers: number }) => state.correctAnswers,
+  );
   const userName = useSelector((state: { userName: string }) => state.userName);
 
   const timerRef = useRef<number>();
@@ -88,7 +93,7 @@ export default function Questions() {
     const currentQuestion = questions[currentQuestionIndex];
     const correctOptionIndex = currentQuestion.correctOption;
     if (optionIndex === correctOptionIndex) {
-      setCorrectAnswers(correctAnswers + 1);
+      dispatch(setCorrectAnswers(correctAnswers + 1));
       playalertSoundRight();
     } else {
       playalertSoundWrong();
