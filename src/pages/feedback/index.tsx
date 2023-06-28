@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cliente from '../../cliente';
 
@@ -11,24 +12,28 @@ export default function Feedback() {
     (state: { numberOfQuestions: number }) => state.numberOfQuestions,
   );
 
-  const handleSaveResults = async () => {
-    try {
-      // Define os dados que serão salvos
-      const result = {
-        _type: 'ranking',
-        userName,
-        correctAnswers,
-        numberOfQuestions,
-      };
+  useEffect(() => {
+    const handleSaveResults = async () => {
+      try {
+        // Define os dados que serão salvos
+        const result = {
+          _type: 'ranking',
+          userName,
+          correctAnswers,
+          numberOfQuestions,
+        };
 
-      // Envie os dados para o Sanity
-      await cliente.create(result);
+        // Envie os dados para o Sanity
+        await cliente.create(result);
 
-      console.log('Resultados salvos com sucesso!');
-    } catch (error) {
-      console.error('Erro ao salvar os resultados:', error);
-    }
-  };
+        console.log('Resultados salvos com sucesso!');
+      } catch (error) {
+        console.error('Erro ao salvar os resultados:', error);
+      }
+    };
+
+    handleSaveResults();
+  }, [userName, correctAnswers, numberOfQuestions]);
 
   return (
     <div className="feedback-page">
@@ -49,7 +54,6 @@ export default function Feedback() {
           {numberOfQuestions}
         </p>
       </div>
-      <button onClick={ handleSaveResults }>Salvar Resultados</button>
     </div>
   );
 }
