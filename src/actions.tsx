@@ -11,3 +11,10 @@ export const setCorrectAnswers = (count: number) => {
     payload: count,
   };
 };
+
+export const setNumberOfQuestions = (count: number) => {
+  return {
+    type: 'SET_NUMBER_OF_QUESTIONS',
+    payload: count,
+  };
+};

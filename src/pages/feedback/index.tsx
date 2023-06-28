@@ -6,6 +6,9 @@ export default function Feedback() {
   const correctAnswers = useSelector(
     (state: { correctAnswers: number }) => state.correctAnswers,
   );
+  const numberOfQuestions = useSelector(
+    (state: { numberOfQuestions: number }) => state.numberOfQuestions,
+  );
 
   return (
     <div className="feedback-page">
@@ -22,6 +25,9 @@ export default function Feedback() {
           {' '}
           { correctAnswers }
           {' '}
+          de
+          {' '}
+          {numberOfQuestions}
         </p>
       </div>
     </div>

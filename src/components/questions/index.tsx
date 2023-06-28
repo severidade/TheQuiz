@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setCorrectAnswers } from '../../actions';
+import { setCorrectAnswers, setNumberOfQuestions } from '../../actions';
 
 import client from '../../cliente';
 import './questions.css';
@@ -22,7 +22,6 @@ export default function Questions() {
   const [showResult, setShowResult] = useState(false);
   const [timer, setTimer] = useState(30); // Tempo inicial do timer em segundos
 
-  // const userName = useSelector((state) => state.userName) as string;
   const dispatch = useDispatch();
   const correctAnswers = useSelector(
     (state: { correctAnswers: number }) => state.correctAnswers,
@@ -38,6 +37,7 @@ export default function Questions() {
         const response = await client.fetch('*[_type == "question"]');
         const shuffledQuestions = shuffleArray(response);
         setQuestions(shuffledQuestions);
+        dispatch(setNumberOfQuestions(shuffledQuestions.length));
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
