@@ -10,6 +10,12 @@ export default {
       description: 'Enter the user name',
     },
     {
+      name: 'userEmail',
+      title: 'User e-mail',
+      type: 'string',
+      description: 'Enter the user e-mail address',
+    },
+    {
       name: 'correctAnswers',
       title: 'Correct Answers',
       type: 'number',
