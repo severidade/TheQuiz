@@ -23,10 +23,12 @@ export default function Questions() {
   const [timer, setTimer] = useState(30); // Tempo inicial do timer em segundos
 
   const dispatch = useDispatch();
+
   const correctAnswers = useSelector(
     (state: { correctAnswers: number }) => state.correctAnswers,
   );
   const userName = useSelector((state: { userName: string }) => state.userName);
+  const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
 
   const timerRef = useRef<number>();
   const navigate = useNavigate();
@@ -136,6 +138,8 @@ export default function Questions() {
         Olá
         {' '}
         {userName}
+        {' '}
+        {userEmail}
         !
       </h1>
       <h3>{currentQuestion.title}</h3>

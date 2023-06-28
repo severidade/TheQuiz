@@ -1,11 +1,13 @@
 interface State {
   userName: string;
+  userEmail: string;
   correctAnswers: number;
   numberOfQuestions: number;
 }
 
 const initialState: State = {
   userName: '',
+  userEmail: '',
   correctAnswers: 0,
   numberOfQuestions: 0,
 };
@@ -16,6 +18,11 @@ const rootReducer = (state = initialState, action: { type: string; payload: any 
       return {
         ...state,
         userName: action.payload,
+      };
+    case 'SET_USER_EMAIL':
+      return {
+        ...state,
+        userEmail: action.payload,
       };
     case 'SET_CORRECT_ANSWERS':
       return {

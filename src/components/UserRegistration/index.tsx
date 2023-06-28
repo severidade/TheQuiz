@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import { useDispatch } from 'react-redux';
-import { setUserName } from '../../redux/actions';
+import { setUserName, setUserEmail } from '../../redux/actions';
 
 import client from '../../cliente';
 import './UserRegistration.css';
@@ -17,6 +17,7 @@ function UserRegistration() {
   const [loading, setLoading] = useState(false);
   const [mutationResult, setMutationResult] = useState<string | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -81,6 +82,8 @@ function UserRegistration() {
       setMutationResult(`Olá ${name}. Seu cadastrado foi realizado com sucesso!`);
 
       dispatch(setUserName(name));
+      dispatch(setUserEmail(email));
+
       setIsUserRegistered(true); // Define que o usuário foi cadastrado com sucesso
     } catch (error: any) {
       console.error('Ocorreu um erro ao cadastrar o usuário:', error.message);

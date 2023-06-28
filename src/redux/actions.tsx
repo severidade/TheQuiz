@@ -5,6 +5,13 @@ export const setUserName = (name: string) => {
   };
 };
 
+export const setUserEmail = (email: string) => {
+  return {
+    type: 'SET_USER_EMAIL',
+    payload: email,
+  };
+};
+
 export const setCorrectAnswers = (count: number) => {
   return {
     type: 'SET_CORRECT_ANSWERS',
