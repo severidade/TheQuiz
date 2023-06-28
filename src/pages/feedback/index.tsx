@@ -39,25 +39,25 @@ export default function Feedback() {
   //   handleSaveResults();
   // }, [userName, correctAnswers, numberOfQuestions]);
 
-  const handleSaveResults = async () => {
-    try {
-      // Define os dados que serão salvos
-      const result = {
-        _type: 'ranking',
-        userName,
-        userEmail,
-        correctAnswers,
-        numberOfQuestions,
-      };
+  // const handleSaveResults = async () => {
+  //   try {
+  //     // Define os dados que serão salvos
+  //     const result = {
+  //       _type: 'ranking',
+  //       userName,
+  //       userEmail,
+  //       correctAnswers,
+  //       numberOfQuestions,
+  //     };
 
-      // Envie os dados para o Sanity
-      await cliente.create(result);
+  //     // Envie os dados para o Sanity
+  //     await cliente.create(result);
 
-      console.log('Resultados salvos com sucesso!');
-    } catch (error) {
-      console.error('Erro ao salvar os resultados:', error);
-    }
-  };
+  //     console.log('Resultados salvos com sucesso!');
+  //   } catch (error) {
+  //     console.error('Erro ao salvar os resultados:', error);
+  //   }
+  // };
 
   // Calcula o percentual de acertos
   const percentage = (correctAnswers / numberOfQuestions) * 100;
