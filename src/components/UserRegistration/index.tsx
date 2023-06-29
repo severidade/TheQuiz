@@ -106,61 +106,60 @@ function UserRegistration() {
     );
   } else {
     content = (
-      <>
-        <form onSubmit={ handleFormSubmit }>
-          <label htmlFor="name">
-            <span>Nome:</span>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={ name }
-              onChange={ handleInputChange }
-              required
-            />
-          </label>
-
-          <label htmlFor="email">
-            <span>E-mail:</span>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={ email }
-              onInput={ handleInputChange }
-              required
-            />
-          </label>
-
-          <label htmlFor="age">
-            <span>Idade:</span>
-            <input
-              type="number"
-              min="0"
-              id="age"
-              name="age"
-              value={ age !== null ? age : '' }
-              onChange={ handleInputChange }
-              required
-            />
-          </label>
-
-          <button type="submit" disabled={ validity }>
-            Cadastrar
-          </button>
-        </form>
-        <ul>
-          <li className={ isNameValid ? 'valid' : 'invalid' }>
+      <form
+        className="register_form"
+        onSubmit={ handleFormSubmit }
+      >
+        <label htmlFor="name" className="register_form_item">
+          <span>Nome:</span>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={ name }
+            onChange={ handleInputChange }
+            required
+          />
+          <span className={ isNameValid ? 'valid' : 'invalid' }>
             O nome deve ter pelo menos 4 caracteres.
-          </li>
-          <li className={ isEmailValid ? 'valid' : 'invalid' }>
+          </span>
+        </label>
+
+        <label htmlFor="email" className="register_form_item">
+          <span>E-mail:</span>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={ email }
+            onInput={ handleInputChange }
+            required
+          />
+          <span className={ isEmailValid ? 'valid' : 'invalid' }>
             Digite um e-mail válido.
-          </li>
-          <li className={ isAgeValid ? 'valid' : 'invalid' }>
+          </span>
+        </label>
+
+        <label htmlFor="age" className="register_form_item">
+          <span>Idade:</span>
+          <input
+            type="number"
+            min="0"
+            id="age"
+            name="age"
+            value={ age !== null ? age : '' }
+            onChange={ handleInputChange }
+            required
+          />
+          <span className={ isAgeValid ? 'valid' : 'invalid' }>
             Preencha uma idade válida.
-          </li>
-        </ul>
-      </>
+          </span>
+        </label>
+
+        <button type="submit" disabled={ validity }>
+          Cadastrar
+        </button>
+      </form>
     );
   }
 

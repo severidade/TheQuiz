@@ -134,14 +134,14 @@ export default function Questions() {
 
   return (
     <div>
-      <h1>
+      {/* <h1>
         Olá
         {' '}
         {userName}
         {' '}
         {userEmail}
         !
-      </h1>
+      </h1> */}
       <h3>{currentQuestion.title}</h3>
       <div className="timer">
         Tempo Restante:

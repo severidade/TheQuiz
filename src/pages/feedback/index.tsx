@@ -1,8 +1,10 @@
 // import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 // import cliente from '../../cliente';
 
 export default function Feedback() {
+  const navigate = useNavigate();
   const userName = useSelector((state: { userName: string }) => state.userName);
   // const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
   const correctAnswers = useSelector(
@@ -77,13 +79,13 @@ export default function Feedback() {
 
   return (
     <div className="feedback-page">
-      <div className="title">
-        <h1>
-          Parabéns
-          {' '}
-          {userName}
-          !
-        </h1>
+      <h1>
+        Parabéns
+        {' '}
+        {userName}
+        !
+      </h1>
+      <div className="message">
         <p>
           Você acertou
           {' '}
@@ -98,8 +100,23 @@ export default function Feedback() {
           %)
         </p>
         <p>{message}</p>
-        {/* <button onClick={ handleSaveResults }>Salvar Resultados</button> */}
       </div>
+      {/* <button onClick={ handleSaveResults }>Salvar Resultados</button> */}
+      <button
+        onClick={ () => navigate('/') }
+      >
+        Jogar novamente
+      </button>
+      <button
+        onClick={ () => navigate('/') }
+      >
+        Novo Jogador
+      </button>
+      <button
+        onClick={ () => navigate('/ranking') }
+      >
+        Ranking
+      </button>
     </div>
   );
 }
