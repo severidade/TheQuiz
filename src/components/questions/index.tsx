@@ -40,6 +40,8 @@ export default function Questions() {
         const shuffledQuestions = shuffleArray(response);
         setQuestions(shuffledQuestions);
         dispatch(setNumberOfQuestions(shuffledQuestions.length));
+        // Zerar o valor de correctAnswers ao montar o componente
+        dispatch(setCorrectAnswers(0));
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
