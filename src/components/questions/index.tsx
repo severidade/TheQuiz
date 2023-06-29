@@ -48,7 +48,7 @@ export default function Questions() {
     };
 
     fetchQuestions();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const countdown = () => {
