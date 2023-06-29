@@ -7,6 +7,7 @@ import Trivia from './pages/trivia';
 import Feedback from './pages/feedback';
 import NotFound from './pages/not-found';
 import Register from './pages/register';
+import Ranking from './pages/ranking';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/register" element={ <Register /> } />
         <Route path="/trivia" element={ <Trivia /> } />
         <Route path="/feedback" element={ <Feedback /> } />
+        <Route path="/ranking" element={ <Ranking /> } />
         <Route path="*" element={ <NotFound /> } />
       </Routes>
     </Provider>
