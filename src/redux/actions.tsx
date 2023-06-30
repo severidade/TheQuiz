@@ -26,12 +26,17 @@ export const setNumberOfQuestions = (count: number) => {
   };
 };
 
-export const playAgain = (userName: string, userEmail: string) => {
+export const playAgain = (
+  userName: string,
+  userEmail: string,
+  gamePlayedAgain: boolean,
+) => {
   return {
     type: 'PLAY_AGAIN',
     payload: {
       userName,
       userEmail,
+      gamePlayedAgain,
     },
   };
 };

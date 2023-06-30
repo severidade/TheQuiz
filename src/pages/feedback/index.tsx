@@ -15,6 +15,7 @@ export default function Feedback() {
   const numberOfQuestions = useSelector(
     (state: { numberOfQuestions: number }) => state.numberOfQuestions,
   );
+  const gamePlayedAgain = true;
 
   // Calcula o percentual de acertos
   const percentage = (correctAnswers / numberOfQuestions) * 100;
@@ -30,9 +31,12 @@ export default function Feedback() {
   }
 
   const handlePlayAgain = () => {
-    dispatch(playAgain(userName, userEmail));
-    // dispatch(resetUser());
-    // navigate('/', { state: { name: userName, email: userEmail } });
+    dispatch(playAgain(userName, userEmail, gamePlayedAgain));
+    navigate('/');
+  };
+
+  const handleNewPlayer = () => {
+    dispatch(playAgain('', '', false));
     navigate('/');
   };
 
@@ -66,7 +70,7 @@ export default function Feedback() {
       <button onClick={ handlePlayAgain }>
         Jogar novamente
       </button>
-      <button onClick={ () => navigate('/') }>
+      <button onClick={ handleNewPlayer }>
         Novo Jogador
       </button>
       <button onClick={ () => navigate('/ranking') }>

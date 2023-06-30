@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { playAgain } from '../../redux/actions';
 
 export default function Home() {
   const navigate = useNavigate();
-  const [isValid, setIsValid] = useState(false);
+  const dispatch = useDispatch();
 
+  const [isValid, setIsValid] = useState(false);
   const userName = useSelector((state: { userName: string }) => state.userName);
   const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
   const gamePlayedAgain = useSelector(
@@ -17,10 +19,20 @@ export default function Home() {
 
   const handlePlay = () => {
     navigate('/trivia');
+    dispatch(playAgain(userName, userEmail, false));
   };
 
   useEffect(() => {
-    if (gamePlayedAgain && nameInputRef.current && emailInputRef.current) {
+    const isUserNameValid = userName !== '';
+    const isUserEmailValid = userEmail !== '';
+
+    if (
+      gamePlayedAgain
+      && nameInputRef.current
+      && emailInputRef.current
+      && isUserNameValid
+      && isUserEmailValid
+    ) {
       // Atualizar os campos de valor do input com userName e userEmail
       nameInputRef.current.value = userName;
       emailInputRef.current.value = userEmail;
