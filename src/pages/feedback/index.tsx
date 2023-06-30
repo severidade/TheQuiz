@@ -66,7 +66,6 @@ export default function Feedback() {
         </p>
         <p>{message}</p>
       </div>
-      {/* <button onClick={ handleSaveResults }>Salvar Resultados</button> */}
       <button onClick={ handlePlayAgain }>
         Jogar novamente
       </button>

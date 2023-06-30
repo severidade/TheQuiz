@@ -39,9 +39,9 @@ const rootReducer = (state = initialState, action: { type: string; payload: any 
     case 'PLAY_AGAIN':
       return {
         ...state,
-        gamePlayedAgain: action.payload.gamePlayedAgain, // Atualiznado do estado
-        userName: action.payload.userName, // Atualizando o userName no estado
-        userEmail: action.payload.userEmail, // Atualizando o userEmail no estado
+        gamePlayedAgain: action.payload.gamePlayedAgain,
+        userName: action.payload.userName,
+        userEmail: action.payload.userEmail,
       };
     default:
       return state;
