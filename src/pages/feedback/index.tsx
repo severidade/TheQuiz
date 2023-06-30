@@ -18,7 +18,7 @@ export default function Feedback() {
   const gamePlayedAgain = true;
 
   // Calcula o percentual de acertos
-  const percentage = (correctAnswers / numberOfQuestions) * 100;
+  const percentage = Math.round((correctAnswers / numberOfQuestions) * 100);
 
   // Determina a mensagem com base no percentual de acertos
   let message = '';
