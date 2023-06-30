@@ -25,3 +25,18 @@ export const setNumberOfQuestions = (count: number) => {
     payload: count,
   };
 };
+
+export const playAgain = (
+  userName: string,
+  userEmail: string,
+  gamePlayedAgain: boolean,
+) => {
+  return {
+    type: 'PLAY_AGAIN',
+    payload: {
+      userName,
+      userEmail,
+      gamePlayedAgain,
+    },
+  };
+};

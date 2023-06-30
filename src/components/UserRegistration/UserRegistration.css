@@ -1,8 +1,23 @@
+.register_form, .register_form_item{
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+.register_form_item {
+  margin-bottom: 20px;
+}
+
+ 
+
 .valid{
   color: green;
   text-decoration: line-through;
 }
 
 .invalid {
-  color: tomato;
+  color: white;
 }

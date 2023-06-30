@@ -3,6 +3,7 @@ interface State {
   userEmail: string;
   correctAnswers: number;
   numberOfQuestions: number;
+  gamePlayedAgain: boolean;
 }
 
 const initialState: State = {
@@ -10,6 +11,7 @@ const initialState: State = {
   userEmail: '',
   correctAnswers: 0,
   numberOfQuestions: 0,
+  gamePlayedAgain: false,
 };
 
 const rootReducer = (state = initialState, action: { type: string; payload: any }) => {
@@ -33,6 +35,13 @@ const rootReducer = (state = initialState, action: { type: string; payload: any 
       return {
         ...state,
         numberOfQuestions: action.payload,
+      };
+    case 'PLAY_AGAIN':
+      return {
+        ...state,
+        gamePlayedAgain: action.payload.gamePlayedAgain,
+        userName: action.payload.userName,
+        userEmail: action.payload.userEmail,
       };
     default:
       return state;
