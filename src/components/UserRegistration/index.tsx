@@ -22,7 +22,7 @@ function UserRegistration() {
 
   useEffect(() => {
     const handleValidity = () => {
-      const emailValidation = email.match(/\S+@\S+\.\S+/);
+      const emailValidation = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       const nameValidation = name.length;
       const ageValidation = age !== null
         && !Number.isNaN(Number(age))
