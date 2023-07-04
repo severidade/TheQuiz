@@ -27,8 +27,8 @@ export default function Questions() {
   const correctAnswers = useSelector(
     (state: { correctAnswers: number }) => state.correctAnswers,
   );
-  // const userName = useSelector((state: { userName: string }) => state.userName);
-  // const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
+  const userName = useSelector((state: { userName: string }) => state.userName);
+  const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
 
   const timerRef = useRef<number>();
   const navigate = useNavigate();
@@ -136,14 +136,14 @@ export default function Questions() {
 
   return (
     <div>
-      {/* <h1>
+      <h1>
         Olá
         {' '}
         {userName}
         {' '}
         {userEmail}
         !
-      </h1> */}
+      </h1>
       <h3>{currentQuestion.title}</h3>
       <div className="timer">
         Tempo Restante:
