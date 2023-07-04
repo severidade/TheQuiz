@@ -1,13 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import { playAgain } from '../../redux/actions';
+import client from '../../cliente';
 
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [isValid, setIsValid] = useState(false);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
   const userName = useSelector((state: { userName: string }) => state.userName);
   const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
   const gamePlayedAgain = useSelector(
@@ -17,10 +23,33 @@ export default function Home() {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
-  const handlePlay = () => {
-    navigate('/trivia');
-    dispatch(playAgain(userName, userEmail, false));
+  const handlePlay: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault();
+
+    const query = '*[_type == \'user\' && (name == $name || email == $email)]';
+    const existingUsers = await client.fetch(query, { name, email });
+
+    if (existingUsers.length > 0) {
+      navigate('/trivia');
+      console.log('cheguei aqui');
+      dispatch(playAgain(name, email, false));
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Usuário não existe',
+        text: 'usuário nao cadastrado na base.',
+      });
+    }
   };
+
+  useEffect(() => {
+    const emailValidation = email.match(/\S+@\S+\.\S+/);
+    const nameValidation = name.length;
+    const magicNumber = 4;
+    if (emailValidation && nameValidation >= magicNumber) {
+      setIsValid(true);
+    }
+  }, [name, email]);
 
   useEffect(() => {
     const isUserNameValid = userName !== '';
@@ -34,14 +63,16 @@ export default function Home() {
       && isUserEmailValid
     ) {
       // Atualizar os campos de valor do input com userName e userEmail
-      nameInputRef.current.value = userName;
-      emailInputRef.current.value = userEmail;
+      setName(userName);
+      setEmail(userEmail);
       setIsValid(true);
     }
   }, [gamePlayedAgain, userName, userEmail]);
 
-  console.log(typeof gamePlayedAgain);
-  console.log(gamePlayedAgain ? 'Verdadeiro' : 'Falso');
+  // console.log(typeof gamePlayedAgain);
+  // console.log(gamePlayedAgain ? 'Verdadeiro' : 'Falso');
+  // console.log(name, email);
+  // console.log(userName, userEmail);
 
   return (
     <div className="home-page">
@@ -55,6 +86,8 @@ export default function Home() {
               name="name"
               id="nameInput"
               ref={ nameInputRef }
+              value={ name }
+              onChange={ (e) => setName(e.target.value) }
               required
             />
             <span>Player Name</span>
@@ -62,9 +95,11 @@ export default function Home() {
           <label htmlFor="Email">
             <input
               type="text"
-              name="gravatarEmail"
+              name="email"
               id="emailInput"
               ref={ emailInputRef }
+              value={ email }
+              onChange={ (e) => setEmail(e.target.value) }
               required
             />
             <span>Email</span>
