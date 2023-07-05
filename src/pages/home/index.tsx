@@ -31,7 +31,6 @@ export default function Home() {
 
     if (skipValidation) {
       navigate('/trivia');
-      console.log('cheguei aqui');
       dispatch(playAgain(name, email, false));
     } else {
       const query = '*[_type == \'user\' && (name == $name || email == $email)]';
@@ -78,18 +77,14 @@ export default function Home() {
     }
   }, [gamePlayedAgain, userName, userEmail]);
 
-  // console.log(typeof gamePlayedAgain);
-  // console.log(gamePlayedAgain ? 'Verdadeiro' : 'Falso');
-  // console.log(name, email);
-  // console.log(userName, userEmail);
-
   return (
     <div className="home-page">
       <div className="title">
         <h1>Página Home</h1>
         <p>Olá, este é um jogo sobre curiosidades da cidade de Belo Horizonte.</p>
         <form className="login__wrapper">
-          <label htmlFor="name">
+          <label htmlFor="name" className="register_form_item">
+            <span>Nome: </span>
             <input
               type="text"
               name="name"
@@ -99,9 +94,10 @@ export default function Home() {
               onChange={ (e) => setName(e.target.value) }
               required
             />
-            <span>Player Name</span>
+
           </label>
-          <label htmlFor="Email">
+          <label htmlFor="Email" className="register_form_item">
+            <span>Email</span>
             <input
               type="text"
               name="email"
@@ -111,7 +107,6 @@ export default function Home() {
               onChange={ (e) => setEmail(e.target.value) }
               required
             />
-            <span>Email</span>
           </label>
 
           <button onClick={ handlePlay } disabled={ !isValid }>
