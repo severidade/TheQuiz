@@ -28,12 +28,14 @@ export default function Home() {
 
   const handlePlay: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
-
     if (skipValidation) {
+      console.log(skipValidation);
       navigate('/trivia');
       dispatch(playAgain(name, email, false));
+      setSkipValidation(false);
     } else {
-      const query = '*[_type == \'user\' && (name == $name || email == $email)]';
+      // const query = '*[_type == \'user\' && (name == $name || email == $email)]';
+      const query = '*[_type == "user" && name == $name && email == $email]';
       const existingUsers = await client.fetch(query, { name, email });
 
       if (existingUsers.length > 0) {
