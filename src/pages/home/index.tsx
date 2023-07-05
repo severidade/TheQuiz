@@ -10,35 +10,43 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const [isValid, setIsValid] = useState(false);
+  const [skipValidation, setSkipValidation] = useState(false);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  // dados do estado global
   const userName = useSelector((state: { userName: string }) => state.userName);
   const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
   const gamePlayedAgain = useSelector(
     (state: { gamePlayedAgain: boolean }) => state.gamePlayedAgain,
   );
 
+  // dados do formulário
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const handlePlay: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
-    const query = '*[_type == \'user\' && (name == $name || email == $email)]';
-    const existingUsers = await client.fetch(query, { name, email });
-
-    if (existingUsers.length > 0) {
+    if (skipValidation) {
       navigate('/trivia');
       console.log('cheguei aqui');
       dispatch(playAgain(name, email, false));
     } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Usuário não existe',
-        text: 'usuário nao cadastrado na base.',
-      });
+      const query = '*[_type == \'user\' && (name == $name || email == $email)]';
+      const existingUsers = await client.fetch(query, { name, email });
+
+      if (existingUsers.length > 0) {
+        navigate('/trivia');
+        dispatch(playAgain(name, email, false));
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Usuário não existe',
+          text: 'usuário nao cadastrado na base.',
+        });
+      }
     }
   };
 
@@ -66,6 +74,7 @@ export default function Home() {
       setName(userName);
       setEmail(userEmail);
       setIsValid(true);
+      setSkipValidation(true); // Pula a validação do banco pois cadastro foi validado anteriormente
     }
   }, [gamePlayedAgain, userName, userEmail]);
 
