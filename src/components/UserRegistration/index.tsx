@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 
 import { useDispatch } from 'react-redux';
 import { setUserName, setUserEmail } from '../../redux/actions';
+import { validateName, validateEmail, validateAge } from '../../utils/formValidation';
 
 import client from '../../cliente';
 import './UserRegistration.css';
@@ -19,25 +20,6 @@ function UserRegistration() {
   const [isUserRegistered, setIsUserRegistered] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const handleValidity = () => {
-      const emailValidation = email.match(/\S+@\S+\.\S+/);
-      const nameValidation = name.length;
-      const ageValidation = age !== null
-        && !Number.isNaN(Number(age))
-        && age >= 1
-        && age < 100;
-      const magicNumber = 4;
-      if (emailValidation && nameValidation >= magicNumber && ageValidation) {
-        setValidity(false);
-      } else {
-        setValidity(true);
-      }
-    };
-
-    handleValidity();
-  }, [name, email, age]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
@@ -93,9 +75,18 @@ function UserRegistration() {
     }
   };
 
-  const isNameValid = name.length >= 4;
-  const isAgeValid = age !== null && age >= 1 && age < 100;
-  const isEmailValid = email.match(/\S+@\S+\.\S+/);
+  useEffect(() => {
+    const handleValidity = () => {
+      const isNameValid = validateName(name);
+      const isEmailValid = validateEmail(email);
+      const isAgeValid = validateAge(age);
+
+      const isValid = isNameValid && isEmailValid && isAgeValid;
+      setValidity(!isValid);
+    };
+
+    handleValidity();
+  }, [name, email, age]);
 
   let content;
   if (loading) {
@@ -120,7 +111,7 @@ function UserRegistration() {
             onChange={ handleInputChange }
             required
           />
-          <span className={ isNameValid ? 'valid' : 'invalid' }>
+          <span className={ validateName(name) ? 'valid' : 'invalid' }>
             O nome deve ter pelo menos 4 caracteres.
           </span>
         </label>
@@ -135,7 +126,7 @@ function UserRegistration() {
             onInput={ handleInputChange }
             required
           />
-          <span className={ isEmailValid ? 'valid' : 'invalid' }>
+          <span className={ validateEmail(email) ? 'valid' : 'invalid' }>
             Digite um e-mail válido.
           </span>
         </label>
@@ -151,7 +142,7 @@ function UserRegistration() {
             onChange={ handleInputChange }
             required
           />
-          <span className={ isAgeValid ? 'valid' : 'invalid' }>
+          <span className={ validateAge(age) ? 'valid' : 'invalid' }>
             Preencha uma idade válida.
           </span>
         </label>
