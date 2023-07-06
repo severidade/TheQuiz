@@ -14,7 +14,7 @@ function UserRegistration() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState<number | null>(null);
-  const [validity, setValidity] = useState(true);
+  const [isValid, setIsValid] = useState(true);
   const [loading, setLoading] = useState(false);
   const [mutationResult, setMutationResult] = useState<string | null>(null);
   const [isUserRegistered, setIsUserRegistered] = useState(false);
@@ -76,16 +76,16 @@ function UserRegistration() {
   };
 
   useEffect(() => {
-    const handleValidity = () => {
+    const handleisValid = () => {
       const isNameValid = validateName(name);
       const isEmailValid = validateEmail(email);
       const isAgeValid = validateAge(age);
 
-      const isValid = isNameValid && isEmailValid && isAgeValid;
-      setValidity(!isValid);
+      const valid = isNameValid && isEmailValid && isAgeValid;
+      setIsValid(!valid);
     };
 
-    handleValidity();
+    handleisValid();
   }, [name, email, age]);
 
   let content;
@@ -147,7 +147,7 @@ function UserRegistration() {
           </span>
         </label>
 
-        <button type="submit" disabled={ validity }>
+        <button type="submit" disabled={ isValid }>
           Cadastrar
         </button>
       </form>

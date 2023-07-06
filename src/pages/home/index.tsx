@@ -51,15 +51,15 @@ export default function Home() {
     // if (emailValidation && nameValidation >= magicNumber) {
     //   setIsValid(true);
     // }
-    const handleValidity = () => {
+    const handleisValidity = () => {
       const isNameValid = validateName(name);
       const isEmailValid = validateEmail(email);
 
-      const Valid = isNameValid && isEmailValid;
-      setIsValid(!Valid);
+      const valid = isNameValid && isEmailValid;
+      setIsValid(!valid);
     };
 
-    handleValidity();
+    handleisValidity();
   }, [name, email]);
 
   useEffect(() => {
