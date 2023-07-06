@@ -10,48 +10,40 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const [isValid, setIsValid] = useState(false);
-  const [skipValidation, setSkipValidation] = useState(false);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  // dados do estado global
   const userName = useSelector((state: { userName: string }) => state.userName);
   const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
   const gamePlayedAgain = useSelector(
     (state: { gamePlayedAgain: boolean }) => state.gamePlayedAgain,
   );
 
-  // dados do formulário
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const handlePlay: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
-    if (skipValidation) {
-      console.log(skipValidation);
-      navigate('/trivia');
-      dispatch(playAgain(name, email, false));
-      setSkipValidation(false);
-    } else {
-      // const query = '*[_type == \'user\' && (name == $name || email == $email)]';
-      const query = '*[_type == "user" && name == $name && email == $email]';
-      const existingUsers = await client.fetch(query, { name, email });
 
-      if (existingUsers.length > 0) {
-        navigate('/trivia');
-        dispatch(playAgain(name, email, false));
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Usuário não existe',
-          text: 'usuário nao cadastrado na base.',
-        });
-      }
+    const query = '*[_type == \'user\' && (name == $name || email == $email)]';
+    const existingUsers = await client.fetch(query, { name, email });
+
+    if (existingUsers.length > 0) {
+      navigate('/trivia');
+      console.log('cheguei aqui');
+      dispatch(playAgain(name, email, false));
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Usuário não existe',
+        text: 'usuário nao cadastrado na base.',
+      });
     }
   };
 
   useEffect(() => {
+    setIsValid(false);
     const emailValidation = email.match(/\S+@\S+\.\S+/);
     const nameValidation = name.length;
     const magicNumber = 4;
@@ -75,9 +67,13 @@ export default function Home() {
       setName(userName);
       setEmail(userEmail);
       setIsValid(true);
-      setSkipValidation(true); // Pula a validação do banco pois cadastro foi validado anteriormente
     }
   }, [gamePlayedAgain, userName, userEmail]);
+
+  // console.log(typeof gamePlayedAgain);
+  // console.log(gamePlayedAgain ? 'Verdadeiro' : 'Falso');
+  // console.log(name, email);
+  // console.log(userName, userEmail);
 
   return (
     <div className="home-page">
@@ -85,8 +81,7 @@ export default function Home() {
         <h1>Página Home</h1>
         <p>Olá, este é um jogo sobre curiosidades da cidade de Belo Horizonte.</p>
         <form className="login__wrapper">
-          <label htmlFor="name" className="register_form_item">
-            <span>Nome: </span>
+          <label htmlFor="name">
             <input
               type="text"
               name="name"
@@ -96,10 +91,9 @@ export default function Home() {
               onChange={ (e) => setName(e.target.value) }
               required
             />
-
+            <span>Player Name</span>
           </label>
-          <label htmlFor="Email" className="register_form_item">
-            <span>Email</span>
+          <label htmlFor="Email">
             <input
               type="text"
               name="email"
@@ -109,6 +103,7 @@ export default function Home() {
               onChange={ (e) => setEmail(e.target.value) }
               required
             />
+            <span>Email</span>
           </label>
 
           <button onClick={ handlePlay } disabled={ !isValid }>
