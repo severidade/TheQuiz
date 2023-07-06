@@ -43,6 +43,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    setIsValid(false);
     const emailValidation = email.match(/\S+@\S+\.\S+/);
     const nameValidation = name.length;
     const magicNumber = 4;
