@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { playAgain } from '../../redux/actions';
 import client from '../../cliente';
+import { validateName, validateEmail } from '../../utils/formValidation';
 
 export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -43,13 +44,22 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setIsValid(false);
-    const emailValidation = email.match(/\S+@\S+\.\S+/);
-    const nameValidation = name.length;
-    const magicNumber = 4;
-    if (emailValidation && nameValidation >= magicNumber) {
-      setIsValid(true);
-    }
+    // setIsValid(false);
+    // const emailValidation = email.match(/\S+@\S+\.\S+/);
+    // const nameValidation = name.length;
+    // const magicNumber = 4;
+    // if (emailValidation && nameValidation >= magicNumber) {
+    //   setIsValid(true);
+    // }
+    const handleValidity = () => {
+      const isNameValid = validateName(name);
+      const isEmailValid = validateEmail(email);
+
+      const Valid = isNameValid && isEmailValid;
+      setIsValid(!Valid);
+    };
+
+    handleValidity();
   }, [name, email]);
 
   useEffect(() => {
@@ -106,7 +116,7 @@ export default function Home() {
             <span>Email</span>
           </label>
 
-          <button onClick={ handlePlay } disabled={ !isValid }>
+          <button onClick={ handlePlay } disabled={ isValid }>
             Jogar
           </button>
         </form>
