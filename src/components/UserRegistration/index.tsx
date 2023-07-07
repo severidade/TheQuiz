@@ -24,7 +24,8 @@ function UserRegistration() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name: inputName, value } = e.target;
     if (inputName === 'name') {
-      setName(value);
+      const formattedName = value.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase());
+      setName(formattedName);
     } else if (inputName === 'email') {
       setEmail(value);
     } else if (inputName === 'age') {
