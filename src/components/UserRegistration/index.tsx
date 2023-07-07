@@ -27,7 +27,8 @@ function UserRegistration() {
       const formattedName = value.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase());
       setName(formattedName);
     } else if (inputName === 'email') {
-      setEmail(value);
+      const formattedEmail = value.toLowerCase();
+      setEmail(formattedEmail);
     } else if (inputName === 'age') {
       setAge(parseInt(value, 10));
     }
