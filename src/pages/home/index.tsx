@@ -24,6 +24,17 @@ export default function Home() {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name: inputName, value } = e.target;
+    if (inputName === 'name') {
+      const formattedName = value.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase());
+      setName(formattedName);
+    } else if (inputName === 'email') {
+      const formattedEmail = value.toLowerCase();
+      setEmail(formattedEmail);
+    }
+  };
+
   const handlePlay: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
@@ -66,7 +77,7 @@ export default function Home() {
     };
 
     handleisValidity();
-    console.log(`passei no segundo e estou ${gamePlayedAgain}`);
+    // console.log(`passei no segundo e estou ${gamePlayedAgain}`);
   }, [name, email]);
 
   useEffect(() => {
@@ -101,7 +112,8 @@ export default function Home() {
               id="nameInput"
               ref={ nameInputRef }
               value={ name }
-              onChange={ (e) => setName(e.target.value) }
+              // onChange={ (e) => setName(e.target.value) }
+              onChange={ handleInputChange }
               required
             />
             <span>Player Name</span>
@@ -113,7 +125,8 @@ export default function Home() {
               id="emailInput"
               ref={ emailInputRef }
               value={ email }
-              onChange={ (e) => setEmail(e.target.value) }
+              // onChange={ (e) => setEmail(e.target.value) }
+              onChange={ handleInputChange }
               required
             />
             <span>Email</span>
