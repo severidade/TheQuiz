@@ -15,7 +15,7 @@ export default function Feedback() {
   const numberOfQuestions = useSelector(
     (state: { numberOfQuestions: number }) => state.numberOfQuestions,
   );
-  const gamePlayedAgain = true;
+  // const gamePlayedAgain = true;
 
   // Calcula o percentual de acertos
   const percentage = Math.round((correctAnswers / numberOfQuestions) * 100);
@@ -31,7 +31,7 @@ export default function Feedback() {
   }
 
   const handlePlayAgain = () => {
-    dispatch(playAgain(userName, userEmail, gamePlayedAgain));
+    dispatch(playAgain(userName, userEmail, true));
     navigate('/');
   };
 
