@@ -9,6 +9,8 @@ export default function Feedback() {
 
   const userName = useSelector((state: { userName: string }) => state.userName);
   const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
+  const userAge = useSelector((state: { userAge: number }) => state.userAge);
+
   const correctAnswers = useSelector(
     (state: { correctAnswers: number }) => state.correctAnswers,
   );
@@ -31,12 +33,12 @@ export default function Feedback() {
   }
 
   const handlePlayAgain = () => {
-    dispatch(playAgain(userName, userEmail, true));
+    dispatch(playAgain(userName, userEmail, userAge, true));
     navigate('/');
   };
 
   const handleNewPlayer = () => {
-    dispatch(playAgain('', '', false));
+    dispatch(playAgain('', '', null, false));
     navigate('/');
   };
 

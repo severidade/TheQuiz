@@ -47,6 +47,7 @@ const rootReducer = (state = initialState, action: { type: string; payload: any 
         gamePlayedAgain: action.payload.gamePlayedAgain,
         userName: action.payload.userName,
         userEmail: action.payload.userEmail,
+        userAge: action.payload.userAge,
       };
     default:
       return state;

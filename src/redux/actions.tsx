@@ -36,6 +36,7 @@ export const setNumberOfQuestions = (count: number) => {
 export const playAgain = (
   userName: string,
   userEmail: string,
+  userAge: number | null,
   gamePlayedAgain: boolean,
 ) => {
   return {
@@ -43,6 +44,7 @@ export const playAgain = (
     payload: {
       userName,
       userEmail,
+      userAge,
       gamePlayedAgain,
     },
   };
