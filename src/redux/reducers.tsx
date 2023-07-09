@@ -26,6 +26,11 @@ const rootReducer = (state = initialState, action: { type: string; payload: any 
         ...state,
         userEmail: action.payload,
       };
+    case 'SET_USER_AGE':
+      return {
+        ...state,
+        userAge: action.payload,
+      };
     case 'SET_CORRECT_ANSWERS':
       return {
         ...state,

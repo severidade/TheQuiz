@@ -12,6 +12,13 @@ export const setUserEmail = (email: string) => {
   };
 };
 
+export const setUserAge = (age: number) => {
+  return {
+    type: 'SET_USER_AGE',
+    payload: age,
+  };
+};
+
 export const setCorrectAnswers = (count: number) => {
   return {
     type: 'SET_CORRECT_ANSWERS',
