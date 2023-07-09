@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import { useDispatch } from 'react-redux';
-import { setUserName, setUserEmail } from '../../redux/actions';
+import { setUserName, setUserEmail, setUserAge } from '../../redux/actions';
 import { validateName, validateEmail, validateAge } from '../../utils/formValidation';
 
 import client from '../../cliente';
@@ -67,6 +67,7 @@ function UserRegistration() {
 
       dispatch(setUserName(name));
       dispatch(setUserEmail(email));
+      dispatch(setUserAge(age));
 
       setIsUserRegistered(true); // Define que o usuário foi cadastrado com sucesso
     } catch (error: any) {

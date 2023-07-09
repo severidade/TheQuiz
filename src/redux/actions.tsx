@@ -12,7 +12,7 @@ export const setUserEmail = (email: string) => {
   };
 };
 
-export const setUserAge = (age: number) => {
+export const setUserAge = (age: number | null) => {
   return {
     type: 'SET_USER_AGE',
     payload: age,
