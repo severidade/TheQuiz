@@ -7,5 +7,6 @@ export const validateAge = (age: number | null) => {
 };
 
 export const validateEmail = (email: string) => {
-  return email.match(/\S+@\S+\.\S+/);
+  const emailRegex = /^(?!\.)[a-zA-Z0-9._%+-]+@(?!-)[a-zA-Z0-9.-]+(?<!-)\.[a-zA-Z]{2,6}$/;
+  return email.match(emailRegex);
 };
