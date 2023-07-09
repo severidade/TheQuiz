@@ -29,6 +29,7 @@ export default function Questions() {
   );
   const userName = useSelector((state: { userName: string }) => state.userName);
   const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
+  const userAge = useSelector((state: { userAge: number | null }) => state.userAge);
 
   const timerRef = useRef<number>();
   const navigate = useNavigate();
@@ -36,19 +37,23 @@ export default function Questions() {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await client.fetch('*[_type == "question"]');
+        let schemaName = 'question';
+        if (userAge && userAge < 10) {
+          schemaName = 'questionUnderTen';
+        }
+
+        const response = await client.fetch(`*[_type == "${schemaName}"]`);
         const shuffledQuestions = shuffleArray(response);
         setQuestions(shuffledQuestions);
         dispatch(setNumberOfQuestions(shuffledQuestions.length));
-        // Zerar o valor de correctAnswers ao montar o componente
-        dispatch(setCorrectAnswers(0));
+        // Resto do código...
       } catch (error) {
         console.error('Error fetching questions:', error);
       }
     };
 
     fetchQuestions();
-  }, [dispatch]);
+  }, [dispatch, userAge]);
 
   useEffect(() => {
     const countdown = () => {
@@ -142,6 +147,8 @@ export default function Questions() {
         {userName}
         {' '}
         {userEmail}
+        {' '}
+        {userAge}
         !
       </h1>
       <h3>{currentQuestion.title}</h3>

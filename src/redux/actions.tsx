@@ -12,6 +12,13 @@ export const setUserEmail = (email: string) => {
   };
 };
 
+export const setUserAge = (age: number | null) => {
+  return {
+    type: 'SET_USER_AGE',
+    payload: age,
+  };
+};
+
 export const setCorrectAnswers = (count: number) => {
   return {
     type: 'SET_CORRECT_ANSWERS',
@@ -29,6 +36,7 @@ export const setNumberOfQuestions = (count: number) => {
 export const playAgain = (
   userName: string,
   userEmail: string,
+  userAge: number | null,
   gamePlayedAgain: boolean,
 ) => {
   return {
@@ -36,6 +44,7 @@ export const playAgain = (
     payload: {
       userName,
       userEmail,
+      userAge,
       gamePlayedAgain,
     },
   };

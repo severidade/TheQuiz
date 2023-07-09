@@ -11,12 +11,15 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const [isValid, setIsValid] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [age, setAge] = useState<number | null>(null);
 
   const userName = useSelector((state: { userName: string }) => state.userName);
   const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
+  const userAge = useSelector((state: { userAge: number | null }) => state.userAge);
   const gamePlayedAgain = useSelector(
     (state: { gamePlayedAgain: boolean }) => state.gamePlayedAgain,
   );
@@ -44,7 +47,7 @@ export default function Home() {
       console.log(`passei aqui e estou ${gamePlayedAgain}`);
       console.log('pulei a validacao');
 
-      dispatch(playAgain(name, email, false));
+      dispatch(playAgain(name, email, age, false));
     } else {
       // const query = '*[_type == \'user\' && (name == $name || email == $email)]';
       const query = '*[_type == \'user\' && name == $name && email == $email]';
@@ -55,8 +58,10 @@ export default function Home() {
       console.log('passei na validacao validacao pois estava false');
 
       if (existingUsers.length > 0) {
-        navigate('/trivia');
-        dispatch(playAgain(name, email, false));
+        const user = existingUsers[0];
+        const ageFromDB = user.age;
+        setAge(ageFromDB);
+        setIsPlaying(true);
       } else {
         Swal.fire({
           icon: 'error',
@@ -95,9 +100,17 @@ export default function Home() {
       // Atualizar os campos de valor do input com userName e userEmail
       setName(userName);
       setEmail(userEmail);
+      setAge(userAge);
       setIsValid(true);
     }
-  }, [gamePlayedAgain, userName, userEmail]);
+  }, [gamePlayedAgain, userName, userEmail, userAge]);
+
+  useEffect(() => {
+    if (isPlaying && age !== null) {
+      navigate('/trivia');
+      dispatch(playAgain(name, email, age, false));
+    }
+  }, [isPlaying, age, dispatch, email, name, navigate]);
 
   return (
     <div className="home-page">

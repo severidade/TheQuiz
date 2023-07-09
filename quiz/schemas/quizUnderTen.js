@@ -1,8 +1,8 @@
 // schema.js
 
 export default {
-  name: 'question',
-  title: 'Questionário pra adultos',
+  name: 'questionUnderTen',
+  title: 'Questionário para crianças',
   type: 'document',
   fields: [
     {
