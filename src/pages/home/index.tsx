@@ -36,6 +36,7 @@ export default function Home() {
       const formattedEmail = value.toLowerCase();
       setEmail(formattedEmail);
     }
+    dispatch(playAgain(name, email, age, false));
   };
 
   const handlePlay: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
