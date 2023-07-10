@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { playAgain } from '../../redux/actions';
+import { playAgain, setCorrectAnswers, setNumberOfQuestions } from '../../redux/actions';
 
 export default function Feedback() {
   const navigate = useNavigate();
@@ -34,12 +34,22 @@ export default function Feedback() {
 
   const handlePlayAgain = () => {
     dispatch(playAgain(userName, userEmail, userAge, true));
+    dispatch(setCorrectAnswers(0));
+    dispatch(setNumberOfQuestions(0));
     navigate('/');
   };
 
   const handleNewPlayer = () => {
     dispatch(playAgain('', '', null, false));
+    dispatch(setCorrectAnswers(0));
+    dispatch(setNumberOfQuestions(0));
     navigate('/');
+  };
+
+  const handleNavigateToRanking = () => {
+    dispatch(setCorrectAnswers(0));
+    dispatch(setNumberOfQuestions(0));
+    navigate('/ranking');
   };
 
   return (
@@ -74,7 +84,7 @@ export default function Feedback() {
       <button onClick={ handleNewPlayer }>
         Novo Jogador
       </button>
-      <button onClick={ () => navigate('/ranking') }>
+      <button onClick={ handleNavigateToRanking }>
         Ranking
       </button>
     </div>
