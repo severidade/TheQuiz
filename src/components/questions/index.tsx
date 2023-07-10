@@ -6,8 +6,11 @@ import { setCorrectAnswers, setNumberOfQuestions } from '../../redux/actions';
 
 import client from '../../cliente';
 import './questions.css';
+// import alertSoundWrong from '../../assets/wrong_answer.mp3';
+// import alertSoundRight from '../../assets/right_answer.mp3';
+
 import alertSoundWrong from '../../assets/wrong_answer.mp3';
-import alertSoundRight from '../../assets/right_answer.mp3';
+import alertSoundRight from '../../assets/featured.mp3';
 
 interface Question {
   title: string;
