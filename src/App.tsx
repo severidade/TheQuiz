@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 import './App.css';
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -10,6 +12,13 @@ import Register from './pages/register';
 import Ranking from './pages/ranking';
 
 function App() {
+  const TRACKING_ID = 'G-DY66VLRRSR';
+
+  useEffect(() => {
+    ReactGA.initialize(TRACKING_ID);
+    ReactGA.gtag({ hitType: 'pageview', page: document.location.pathname });
+  }, []);
+
   return (
     <Provider store={ store }>
       <Routes>
