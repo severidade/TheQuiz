@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import ReactGA from 'react-ga4';
 import Swal from 'sweetalert2';
 import { playAgain } from '../../redux/actions';
 import client from '../../cliente';
@@ -73,6 +74,14 @@ export default function Home() {
     }
   };
 
+  const trackButtonClick = (buttonLabel: string) => {
+    ReactGA.event({
+      category: 'Button',
+      action: 'Click',
+      label: buttonLabel,
+    });
+  };
+
   useEffect(() => {
     const handleisValidity = () => {
       const isNameValid = validateName(name);
@@ -114,11 +123,11 @@ export default function Home() {
   }, [isPlaying, age, dispatch, email, name, navigate]);
 
   return (
-    <div className="home-page">
-      <div className="title">
-        <h1>Página Home</h1>
+    <div className="container_home">
+      <div className="container_login_form">
         <p>Olá, este é um jogo sobre curiosidades da cidade de Belo Horizonte.</p>
-        <form className="login__wrapper">
+        <form className="login_wrapper">
+
           <label htmlFor="name">
             <input
               type="text"
@@ -145,14 +154,36 @@ export default function Home() {
             />
             <span>Email</span>
           </label>
-
-          <button onClick={ handlePlay } disabled={ isValid }>
+          <button
+            onClick={ (e: React.MouseEvent<HTMLButtonElement>) => {
+              handlePlay(e);
+              trackButtonClick('Btn Jogar');
+            } }
+            disabled={ isValid }
+          >
             Jogar
           </button>
-        </form>
 
-        <button onClick={ () => navigate('/register') }>Crie uma conta</button>
-        <button onClick={ () => navigate('/ranking') }>Ranking</button>
+          <fieldset>
+            <button
+              onClick={ () => {
+                navigate('/register');
+                trackButtonClick('Btn cadastrar');
+              } }
+            >
+              Cadastrar
+            </button>
+            <button
+              onClick={ () => {
+                navigate('/ranking');
+                trackButtonClick('Btn ranking');
+              } }
+            >
+              Ranking
+            </button>
+          </fieldset>
+
+        </form>
       </div>
     </div>
   );
