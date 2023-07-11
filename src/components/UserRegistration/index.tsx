@@ -158,7 +158,7 @@ function UserRegistration() {
   }
 
   return (
-    <div>
+    <div className="container_register_form">
       {mutationResult && <p>{mutationResult}</p>}
       {content}
     </div>

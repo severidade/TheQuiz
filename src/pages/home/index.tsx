@@ -125,9 +125,8 @@ export default function Home() {
   return (
     <div className="container_home">
       <div className="container_login_form">
-        <p>Olá, este é um jogo sobre curiosidades da cidade de Belo Horizonte.</p>
+        <p>Olá, este é um jogo de curiosidades sobre a cidade de Belo Horizonte.</p>
         <form className="login_wrapper">
-
           <label htmlFor="name">
             <input
               type="text"
@@ -135,12 +134,12 @@ export default function Home() {
               id="nameInput"
               ref={ nameInputRef }
               value={ name }
-              // onChange={ (e) => setName(e.target.value) }
               onChange={ handleInputChange }
               required
             />
             <span>Player Name</span>
           </label>
+
           <label htmlFor="Email">
             <input
               type="text"
@@ -148,12 +147,12 @@ export default function Home() {
               id="emailInput"
               ref={ emailInputRef }
               value={ email }
-              // onChange={ (e) => setEmail(e.target.value) }
               onChange={ handleInputChange }
               required
             />
             <span>Email</span>
           </label>
+
           <button
             onClick={ (e: React.MouseEvent<HTMLButtonElement>) => {
               handlePlay(e);
