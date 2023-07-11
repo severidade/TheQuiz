@@ -31,7 +31,6 @@ export default function Questions() {
     (state: { correctAnswers: number }) => state.correctAnswers,
   );
   const userName = useSelector((state: { userName: string }) => state.userName);
-  const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
   const userAge = useSelector((state: { userAge: number | null }) => state.userAge);
 
   const timerRef = useRef<number>();
