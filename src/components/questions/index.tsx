@@ -143,65 +143,68 @@ export default function Questions() {
   const correctOptionIndex = currentQuestion.correctOption;
 
   return (
-    <div>
+    <>
       <h1>
         Olá
         {' '}
         {userName}
-        {' '}
-        {userEmail}
-        {' '}
-        {userAge}
         !
       </h1>
-      <h3>{currentQuestion.title}</h3>
       <div className="timer">
         Tempo Restante:
         {' '}
         {timer}
         s
       </div>
-      <ul>
-        {options.map((option, optionIndex) => (
-          <li key={ optionIndex }>
+      <div className="container_page_questions">
+        <h3>{currentQuestion.title}</h3>
+        <div className="container_questions">
+          {options.map((option, optionIndex) => (
             <button
               onClick={ () => handleOptionClick(optionIndex) }
               className={ handleClass(currentQuestion, optionIndex) }
               disabled={ showResult }
+              key={ optionIndex }
             >
               {option}
             </button>
-          </li>
-        ))}
-      </ul>
-      {showResult && (
-        <p>
-          {timer === 0 && 'Seu tempo acabou'}
-          {timer !== 0 && (
-            <>
-              Sua resposta está
-              {' '}
-              {selectedOption === correctOptionIndex ? 'Correta' : 'Incorreta'}
-            </>
+
+          ))}
+        </div>
+        <div className="container_feedback">
+          {showResult && (
+            <p>
+              {timer === 0 && 'Seu tempo acabou'}
+              {timer !== 0 && (
+                <>
+                  Sua resposta está
+                  {' '}
+                  {selectedOption === correctOptionIndex ? 'Correta' : 'Incorreta'}
+                </>
+              )}
+            </p>
           )}
-        </p>
-      )}
-      {showResult && (
-        <button onClick={ handleNextQuestion }>
-          {currentQuestionIndex === questions.length - 1
-            ? 'Finalizar'
-            : 'Próxima Pergunta'}
-        </button>
-      )}
-      <div>
-        Total de respostas corretas:
-        {' '}
-        {correctAnswers}
-        {' '}
-        /
-        {' '}
-        {questions.length}
+          <p>
+            Total de respostas corretas:
+            {' '}
+            {correctAnswers}
+            {' '}
+            /
+            {' '}
+            {questions.length}
+          </p>
+        </div>
+        <div className="container_nav">
+          {showResult && (
+            <button onClick={ handleNextQuestion }>
+              {currentQuestionIndex === questions.length - 1
+                ? 'Finalizar'
+                : 'Próxima Pergunta'}
+            </button>
+          )}
+        </div>
+
       </div>
-    </div>
+    </>
   );
 }
