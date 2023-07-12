@@ -1,6 +1,6 @@
 export default {
-  name: 'ranking',
-  title: 'Ranking',
+  name: 'kids_ranking',
+  title: 'Ranking Crianças',
   type: 'document',
   fields: [
     {
@@ -8,6 +8,12 @@ export default {
       title: 'User Name',
       type: 'string',
       description: 'Enter the user name',
+    },
+    {
+      name: 'userAge',
+      title: 'Idade do Jogador',
+      type: 'number',
+      description: 'quantos anos ele tem',
     },
     {
       name: 'userEmail',
@@ -26,6 +32,12 @@ export default {
       title: 'Number of Questions',
       type: 'number',
       description: 'Enter the total number of questions',
+    },
+    {
+      name: 'percentage',
+      title: 'Percentual de acerto',
+      type: 'number',
+      description: 'Número de acertos no questionario',
     },
   ],
 };

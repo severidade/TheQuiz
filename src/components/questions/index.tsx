@@ -30,8 +30,13 @@ export default function Questions() {
   const correctAnswers = useSelector(
     (state: { correctAnswers: number }) => state.correctAnswers,
   );
+
+  const numberOfQuestions = useSelector(
+    (state: { numberOfQuestions: number }) => state.numberOfQuestions,
+  );
   const userName = useSelector((state: { userName: string }) => state.userName);
   const userAge = useSelector((state: { userAge: number | null }) => state.userAge);
+  const userEmail = useSelector((state: { userEmail: string }) => state.userEmail);
 
   const timerRef = useRef<number>();
   const navigate = useNavigate();
@@ -111,6 +116,36 @@ export default function Questions() {
     }
   };
 
+  const handleSaveResults = async () => {
+    try {
+      const percentage = Math.round((correctAnswers / numberOfQuestions) * 100);
+      const commonFields = {
+        userName,
+        userAge,
+        userEmail,
+        correctAnswers,
+        numberOfQuestions,
+        percentage,
+      };
+
+      let results;
+      if (userAge && userAge < 10) {
+        results = {
+          _type: 'kids_ranking',
+          ...commonFields,
+        };
+      } else {
+        results = {
+          _type: 'adult_ranking',
+          ...commonFields,
+        };
+      }
+      await client.create(results);
+    } catch (error) {
+      console.error('Error saving results:', error);
+    }
+  };
+
   const handleNextQuestion = () => {
     clearTimeout(timerRef.current);
     if (currentQuestionIndex < questions.length - 1) {
@@ -119,6 +154,7 @@ export default function Questions() {
       setShowResult(false);
       setTimer(30);
     } else {
+      handleSaveResults();
       navigate('/feedback');
     }
   };
