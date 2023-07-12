@@ -33,5 +33,11 @@ export default {
       type: 'number',
       description: 'Enter the total number of questions',
     },
+    {
+      name: 'percentage',
+      title: 'Percentual de acerto',
+      type: 'number',
+      description: 'Número de acertos no questionario',
+    },
   ],
 };

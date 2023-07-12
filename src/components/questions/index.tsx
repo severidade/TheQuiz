@@ -118,24 +118,26 @@ export default function Questions() {
 
   const handleSaveResults = async () => {
     try {
+      const percentage = Math.round((correctAnswers / numberOfQuestions) * 100);
+      const commonFields = {
+        userName,
+        userAge,
+        userEmail,
+        correctAnswers,
+        numberOfQuestions,
+        percentage,
+      };
+
       let results;
       if (userAge && userAge < 10) {
         results = {
           _type: 'kids_ranking',
-          userName,
-          userAge,
-          userEmail,
-          correctAnswers,
-          numberOfQuestions,
+          ...commonFields,
         };
       } else {
         results = {
           _type: 'adult_ranking',
-          userName,
-          userAge,
-          userEmail,
-          correctAnswers,
-          numberOfQuestions,
+          ...commonFields,
         };
       }
       await client.create(results);
