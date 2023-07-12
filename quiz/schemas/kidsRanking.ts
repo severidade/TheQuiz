@@ -10,6 +10,12 @@ export default {
       description: 'Enter the user name',
     },
     {
+      name: 'userAge',
+      title: 'Idade do Jogador',
+      type: 'number',
+      description: 'quantos anos ele tem',
+    },
+    {
       name: 'userEmail',
       title: 'User e-mail',
       type: 'string',
