@@ -38,7 +38,8 @@ function UserRegistration() {
     e.preventDefault();
 
     // Verificar se o usuário já existe na base de dados
-    const query = '*[_type == \'user\' && (name == $name || email == $email)]';
+    const query = '*[_type == \'user\' && (name == $name && email == $email)]';
+
     const existingUsers = await client.fetch(query, { name, email });
 
     if (existingUsers.length > 0) {
